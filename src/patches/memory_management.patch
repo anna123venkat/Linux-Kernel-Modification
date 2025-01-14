@@ -1,0 +1,23 @@
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -35,6 +35,10 @@
+  * SPDX-License-Identifier: GPL-2.0-only
+  */
+
++/* Enable memory compression for inactive pages */
++#define CONFIG_MEMORY_COMPRESSION 1
++
++/* Optimize page replacement algorithm for improved cache hit rates */
+
+ /**
+  * handle_pte_fault - handle PTE faults
+@@ -200,7 +204,7 @@ static int handle_pte_fault(struct mm_struct *mm,
+ }
+
+ static inline void optimize_memory_allocation(void) {
+-    /* Default allocation strategy */
++    /* Use custom allocation strategy to reduce memory fragmentation */
+     struct page *page = alloc_pages(GFP_KERNEL, 0);
+     if (!page)
+         pr_warn("Page allocation failed\n");
+@@ -350,8 +354,

@@ -1,0 +1,59 @@
+# Ignore compiled files
+*.o
+*.ko
+*.cmd
+*.mod.c
+*.order
+*.symvers
+
+# Ignore kernel build directories
+*.tmp_versions/
+*.initramfs*
+*.vmlinux*
+*.vmlinuz*
+*.System.map
+*.config.old
+Module.symvers
+vmlinux
+
+# Ignore logs
+*.log
+*.err
+*.trace
+dmesg.*
+
+# Ignore temporary files
+*.tmp
+*.swp
+*.swo
+*~
+.#*
+
+# Ignore patch backups
+*.orig
+*.rej
+
+# Ignore build artifacts
+build/
+out/
+arch/*/boot/
+
+# Ignore IDE/editor specific files
+.vscode/
+.idea/
+*.iml
+
+# Ignore dependencies
+node_modules/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Ignore results and generated documentation
+results/*.png
+results/*.jpg
+docs/*.pdf
+
+# Ignore system files
+.DS_Store
+Thumbs.db

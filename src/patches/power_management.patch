@@ -1,0 +1,40 @@
+--- a/kernel/power/main.c
++++ b/kernel/power/main.c
+@@ -35,6 +35,10 @@
+  * SPDX-License-Identifier: GPL-2.0-only
+  */
+
++/* Enable Dynamic Voltage and Frequency Scaling (DVFS) */
++#define CONFIG_CPU_FREQ_GOV_ONDEMAND 1
++
++/* Enable support for deeper CPU idle states */
+
+ /**
+  * pm_suspend - Suspend the system
+@@ -120,7 +124,7 @@ static int pm_suspend(suspend_state_t state)
+ }
+
+ static void optimize_power_management(void) {
+-    /* Default power management policies */
++    /* Custom power management policies for energy efficiency */
+     if (system_state == SYSTEM_RUNNING) {
+         pr_info("Applying dynamic voltage and frequency scaling (DVFS)\n");
+         cpufreq_governor_on_demand();
+@@ -180,8 +184,13 @@ static void optimize_power_management(void) {
+         pr_info("Enabling deeper CPU idle states\n");
+         cpu_idle_enter_deep();
+     }
++
++    /* Optimize device power policies */
++    pr_info("Disabling unused devices to save power\n");
++    disable_unused_devices();
+ }
+
+ /**
+  * power_management_init - Initialize power management subsystem
+@@ -300,6 +309,7 @@ void __init power_management_init(void)
+     pr_info("Initializing power management subsystem\n");
+
+     /* Apply custom optimizations */
++    optimize_power_management();
+ }

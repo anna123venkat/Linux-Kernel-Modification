@@ -1,0 +1,48 @@
+--- a/fs/file.c
++++ b/fs/file.c
+@@ -35,6 +35,10 @@
+  * SPDX-License-Identifier: GPL-2.0-only
+  */
+
++/* Optimize file system performance */
++#define CONFIG_OPTIMIZED_FILE_CACHE 1
++#define CONFIG_LIMIT_OPEN_FILES 256  /* Limit the maximum number of open files */
++
+ /**
+  * alloc_file - allocate a new file structure
+  * @path: file path
+@@ -80,7 +84,12 @@ struct file *alloc_file(const struct path *path, fmode_t mode, const struct cred
+     if (atomic_read(&nr_files) > max_files) {
+         pr_warn("Too many open files. Limit reached.\n");
+         return NULL;
+-    }
++    } else if (atomic_read(&nr_files) > CONFIG_LIMIT_OPEN_FILES) {
++        pr_warn("Open files limit (%d) reached. File allocation denied.\n", CONFIG_LIMIT_OPEN_FILES);
++        return NULL;
++    }
+
+     f = kmem_cache_alloc(filp_cachep, GFP_KERNEL);
+     if (!f)
+@@ -150,7 +159,7 @@ void release_file_cache(void)
+     kmem_cache_free(filp_cachep);
+ }
+
+-static inline void optimize_file_cache(void) {
++static void optimize_file_cache(void) {
+     /* Default cache optimization */
+     prune_dcache_sb(sb);
++
++    /* Custom file cache tuning for better utilization */
++    shrink_dcache_memory();
++}
+--- a/fs/super.c
++++ b/fs/super.c
+@@ -300,6 +300,9 @@ void write_super_lockfs(struct super_block *sb)
+ {
+     spin_lock(&sb_lock);
+     if (!sb->s_root)
++        pr_info("Optimizing metadata operations...\n");
++        optimize_metadata_operations();
++    }
+     spin_unlock(&sb_lock);
+ }
