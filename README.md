@@ -99,3 +99,11 @@ Screenshots and additional results are available in the `results/` directory.
 1. [Understanding the Linux Kernel](https://www.oreilly.com/library/view/understanding-the-linux/0596002130/)
 2. [The Linux Kernel Archives](https://www.kernel.org/)
 3. [Linux Performance and Tuning Guidelines](https://www.ibm.com/docs/en/linux-on-system-z?topic=performance-linux-performance-tuning-guidelines)
+
+---
+
+## Contributors
+
+- **[Prasanna Venkatesh S](https://github.com/anna123venkat)**
+- **[Dharunraj P](https://github.com/Dharun1504)**
+- **[Jospar Millian]((https://github.com/saspa109))**
